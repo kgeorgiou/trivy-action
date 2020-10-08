@@ -15,9 +15,10 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
+          cd demo/trivy-cache
+          docker build -t trivy-cache-demo:${{ github.sha }} .
 
-      - name: Cache Trivy
+      - name: Cache Trivy DB and Image Layers
         id: cache-trivy
         uses: actions/cache@v2
         with:
