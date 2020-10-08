@@ -26,11 +26,10 @@ jobs:
           key: cache-trivy
       
       - name: Run Trivy vulnerability scanner
-        uses: ./
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'trivy-action-cache-demo:${{ github.sha }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
-          cache-dir: $TRIVY_CACHE_DIR
