@@ -29,6 +29,10 @@ inputs:
     description: 'writes results to a file with the specified file name'
     required: false
     default: ''
+  cache-dir:
+    description: 'cache dir'
+    required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'docker://docker.io/aquasec/trivy:latest'
@@ -40,4 +44,5 @@ runs:
     - '--ignore-unfixed=${{ inputs.ignore-unfixed }}'
     - '--severity=${{ inputs.severity }}'
     - '--output=${{ inputs.output }}'
+    - '--cache-dir=${{ inputs.cache-dir }}'
     - '${{ inputs.image-ref }}'
