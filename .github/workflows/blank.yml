@@ -1,0 +1,34 @@
+name: trivy-action-cache-demo
+
+on:
+  workflow_dispatch:
+
+env:
+  TRIVY_CACHE_DIR: ~/.cache/trivy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build an image from Dockerfile
+        run: |
+          docker build -t docker.io/my-organization/my-app:${{ github.sha }} .
+
+      - name: Cache Trivy
+        id: cache-trivy
+        uses: actions/cache@v2
+        with:
+          path: $TRIVY_CACHE_DIR
+          key: cache-trivy
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
