@@ -15,8 +15,8 @@ jobs:
 
       - name: Build an image from Dockerfile
         run: |
-          cd demo
-          docker build -t trivy-cache-demo:${{ github.sha }} .
+          cd demo/trivy-action-cache
+          docker build -t trivy-action-cache-demo:${{ github.sha }} .
 
       - name: Cache Trivy DB and Image Layers
         id: cache-trivy
@@ -28,7 +28,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'trivy-cache-demo:${{ github.sha }}'
+          image-ref: 'trivy-action-cache-demo:${{ github.sha }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
